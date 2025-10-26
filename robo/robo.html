@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuba AI</title>
+    <link rel="shortcut icon" href="robot-waving.gif.crdownload" type="image/x-icon" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+}
+.oo {
+    height: 3em;
+    width: 16em;
+    background-color:   rgb(2, 100, 124);
+    /* border: 2px solid rgb(2, 119, 148); */
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    border: none;
+
+   
+    margin-left: 3.2em;
+    transition: 2s ease-in-out;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.oo {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.oo:hover {
+    background: rgb(4, 114, 141);
+    color: white;
+    border: none;
+}
+.vv {
+    color: rgb(2, 119, 148);
+    font-weight: bold;
+    padding-left: 0.5em;
+}
+.gg {
+    padding-left: 24em;
+    color: white;
+    font-weight: bold;
+}
+.p {
+    width: 20em;
+    margin-left: 15em;
+}
+@media only screen and (max-width: 768px) {
+.p {      margin-left: 6em;  
+   width: 90%; 
+   }
+   .gg {
+       text-align: center;
+    padding-left: 0; 
+    font-size: 1.5em;
+    }
+ .oo {
+      margin-left: 4em;
+  width: 45%;
+}
+  img { 
+       width: 100%;
+        height: auto 
+ }
+}  
+@media only screen and (min-width: 1024px)   {
+    .p  { margin-left: 30em  
+    }
+  }
+  .oo {
+    position: relative;
+    overflow: hidden; /* Ngiryo ry'ingenzi kugira ngo wave zitajya hanze ya button */
+    height: 3em;
+    width: 16em;
+    background-color: rgb(2, 100, 124);
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    border: none;
+    margin-left: 3.2em;
+    transition: 2s ease-in-out;
+}
+
+.oo:hover {
+    background: rgb(2, 119, 148);
+    color: white;
+    border: none;
+}
+
+/* Wave effect */
+.wave {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: wave-animation 1s ease-out forwards;
+    pointer-events: none;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+@keyframes wave-animation {
+    to {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+.wave {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: wave-animation 1s ease-out forwards;
+    pointer-events: none;
+    width: 200px;
+    height: 200px;
+    z-index: 0;
+}
+
+@keyframes wave-animation {
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+.oo {
+    position: relative;
+    overflow: hidden;
+    height: 3em;
+    width: 16em;
+    background-color: rgb(2, 100, 124);
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    border: none;
+    margin-left: 3.2em;
+    transition: 2s ease-in-out;
+}
+
+/* Hover wave: */
+.oo::before {
+    content: "";
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+    pointer-events: none;
+}
+
+.oo:hover::before {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+}
+
+
+    </style>
+</head>
+<body>
+    
+     
+ 
+   
+
+<h2 class="gg">VUBA <span class="vv">AI</span></h2>
+
+<div class="p">
+    
+    <img src="robot-waving.gif.crdownload" alt="AI" style="height: 17em; width: 19em; margin-left: -3.3em;">
+    <button id="btn" class="oo">
+        <span id="content">Ask me All Question</span>
+        <span class="wave"></span>
+      </button>
+      
+</div>
+
+<script>
+    const btn = document.querySelector("#btn");
+    const content = document.querySelector("#content");
+
+    function speak(text, lang = 'en-GB') {
+const utterance = new SpeechSynthesisUtterance(text);
+utterance.lang = lang;
+utterance.rate = 1;
+utterance.pitch = 1;
+utterance.volume = 1;
+
+utterance.lang = "id-ID";
+
+window.speechSynthesis.cancel(); 
+ window.speechSynthesis.speak(utterance);}
+ btn.addEventListener("click", (e) => {
+    recognition.start();
+
+    const wave = document.createElement("span");
+    wave.classList.add("wave");
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    wave.style.left = `${x}px`;
+    wave.style.top = `${y}px`;
+    btn.appendChild(wave);
+
+    setTimeout(() => {
+        wave.remove();
+    }, 1000);
+});
+
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = 'rw-RW'; 
+recognition.interimResults = false;
+recognition.onresult = (event) => {
+ const transcript = event.results[0][0].transcript.toLowerCase();
+content.innerText = transcript;
+takeCommand(transcript);
+ };
+
+btn.addEventListener("click", () => {
+recognition.start();
+
+})
+
+        function detectLang(text) {
+            if (text.includes("muraho") || text.includes("amakuru")) return 'rw-RW';
+    if (text.includes("bonjour") || text.includes("salut")) return 'fr-FR';
+    if (text.includes("hujambo") || text.includes("habari")) return 'sw-KE';
+    return 'en-GB';
+}
+
+function takeCommand(message) {
+    const lang = detectLang(message);
+
+if (["hello", "muraho", "bonjour", "hujambo"].some(greet => message.includes(greet))) {
+const reply = {
+'rw-RW': "Muraho neza, nakumarira iki? Nitwa VUBA AI",
+'fr-FR': "Bonjour, comment puis-je vous aider?",
+'sw-KE': "Hujambo! Naweza kukusaidiaje?",
+'en-GB': "Hello, how can I help you? My name is VUBA AI"
+};
+return speak(reply[lang], lang);
+}
+
+if (["who are you", "uri u muntu", "qui es-tu", "wewe ni nani"].some(ask => message.includes(ask))) {
+    const reply = {
+    'rw-RW': "Ndi Vuba AI, umufasha wa mudasobwa ukorera mu Rwanda.",
+  'fr-FR': "Je suis Vuba AI, intelligence artificielle du Rwanda.",
+  'sw-KE': "Mimi ni Vuba AI, akili ya bandia kutoka Rwanda.",
+  'en-GB': "I am Vuba AI, your AI assistant from Rwanda."};
+speak(reply[lang], lang);
+            
+ }
+
+ if (message.includes("youtube")) {
+     speak("Opening YouTube", lang);
+     return window.open("https://www.youtube.com");
+ }
+ if (message.includes("facebook")) {
+     speak("Opening Facebook", lang);
+     return window.open("https://www.facebook.com");
+ }
+            
+ if (message.includes("instagram")) {
+     speak("Opening Instagram", lang);
+     return window.open("https://www.instagram.com");
+ }
+ if (message.includes("google")) {
+     speak("Opening Google", lang);
+     return window.open("https://www.google.com");
+ }
+ if (message.includes("tiktok")) {
+     speak("Opening TikTok", lang);
+     return window.open("https://www.tiktok.com");
+ }
+ if (message.includes("x")) {
+     speak("Opening twitter changed x", lang);
+     return window.open("https://www.tiktok.com");
+ }
+
+  if (message.includes("chat gpt")) {
+     speak("Opening chat gpt", lang);
+     return window.open("https://chatgpt.com/");
+ }
+ if (message.includes("calculator")) {
+     speak("Opening calculator");
+     return window.open("calculator://");
+ }
+ if (message.includes("notpad")) {
+    speak("Opening notpad in window");
+    return window.open("notpad://");
+}
+
+if (message.includes("VLC")) {
+                speak("Opening VLC media player");
+    return window.open("VLC media player://");
+}
+if (message.includes("Virtual DJ")) {
+     speak("Opening Virtual DJ");
+     return window.open("Virtual DJ");
+ }
+if (message.includes("PhotoShop")) {
+speak("Opening PhotoShop CC x64");
+return window.open("PhotoShop ://");
+}
+
+if (message.includes("urinde wowe")) {
+    speak("my name is A vuba AI I am Located in Rwanda i must help any peaple tha need Hell");
+return window.open(speake);
+}
+if (message.includes("ninde wagukoze")) {
+ speak("Ushaka kumenya inkomoko yanjye ariko singira aho ntuye. Ndi VUBA AI, umufasha wawe.  But I Created By Valantin Mbwira icyo ushaka nkugirire. ");
+return window.open(speake);
+}
+
+
+if (["time", "time kigali", "heure", "saa"].some(t => message.includes(t))) {
+ const now = new Date().toLocaleTimeString();
+ return speak(`The time is ${now}`, lang)
+ }
+    if (
+ ["utuyehe", "ubahe", "witwande", "wavukiye he?", "nindewagukoze?", "iwanyunihe?", "ubamukihegihugu"]
+  .some(q => message.includes(q))
+    ) {
+        const answer = "Ushaka kumenya inkomoko yanjye ariko singira aho ntuye. Ndi VUBA AI, umufasha wawe. Mbwira icyo ushaka nkugirire.";
+ return speak(answer, lang);
+    }
+ window.open(`https://search.yahoo.com/search?p=${message}`, lang)
+speak(`${message}`)
+
+ }
+ window.open(`https://www.youtube.com/=${message}`, lang);
+speak(`${message}`)
+
+
+ if(message.includes("one")) {
+    window.open(`Vuganeza byunvikane kugirango ngufashe neza ${message}`, lang)
+ }
+
+
+if(speak) {
+    speak("Ndabitekerezaho gato...", lang);
+    window.open(`https://free-unoficial-gpt4o-mini-api-g70n.onrender.com/chat/?query=${message}`, lang);
+     speak(answer,res, lang);
+} 
+
+
+   
+      </script>
+</body>
+</html>
